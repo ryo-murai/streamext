@@ -10,19 +10,24 @@ import java.util.List;
 import java.util.concurrent.Executors;
 import java.util.concurrent.Future;
 
-@ExtensionMethod({StreamExt.class})
+import static java.util.stream.Collectors.toList;
+
+@ExtensionMethod({StreamExtOps.class})
 public class StreamExtWithLombok {
     void runStream() {
         var httpClient = HttpClient.newHttpClient();
         var hosts = List.of("example.com", "example.org");
-        var executor = Executors.newFixedThreadPool(hosts.size());
-        hosts.stream()
+        var urls = hosts.stream()
                 .map(s -> String.format("http://%s/info", s))
                 .map(URI::create)
+                .list();
+
+        var executor = Executors.newFixedThreadPool(hosts.size());
+        var list = urls.stream()
                 .map(uri -> HttpRequest.newBuilder(uri).build())
                 .map(req -> executor.submit(() -> httpClient.send(req, HttpResponse.BodyHandlers.ofString())))
                 .mapE(Future::get)
                 .map(HttpResponse::body)
-                .toArray();
+                .collect(toList());
     }
 }

@@ -1,22 +1,32 @@
 package com.github.streamext.extensions;
 
+import com.github.streamext.FunctionExecutionException;
 import lombok.experimental.ExtensionMethod;
 import org.junit.jupiter.api.Test;
 
-import java.net.URI;
-import java.net.http.HttpClient;
-import java.net.http.HttpRequest;
-import java.net.http.HttpResponse;
-import java.util.List;
-import java.util.concurrent.ExecutorService;
-import java.util.concurrent.Executors;
-import java.util.concurrent.Future;
+import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
-import static org.junit.jupiter.api.Assertions.*;
+import static org.assertj.core.api.Assertions.assertThat;
+import static org.assertj.core.api.Assertions.assertThatThrownBy;
 
+@ExtensionMethod(StreamExtOps.class)
 class StreamExtTest {
 
     @Test
     void test_mapE() {
+        var actual = Stream.of("1", "2", "3")
+                .mapE(s -> "0" + s)
+                .collect(Collectors.toList());
+        assertThat(actual).containsExactly("01", "02", "03");
+
+        assertThatThrownBy(() -> {
+            Stream.of("one")
+                    .mapE(s -> {
+                        throw new RuntimeException("error");
+                    })
+                    .findFirst();
+        }).isInstanceOf(FunctionExecutionException.class).getCause().hasMessage("error");
+
     }
 }

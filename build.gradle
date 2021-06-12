@@ -17,6 +17,16 @@ dependencies {
     annotationProcessor "org.projectlombok:lombok:$lombokVersion"
 
     testCompileOnly "org.projectlombok:lombok:$lombokVersion"
-    testCompile 'org.junit.jupiter:junit-jupiter:5.4.2'
+    testImplementation 'org.junit.jupiter:junit-jupiter:5.4.2'
+    testImplementation 'org.assertj:assertj-core:3.19.0'
     testAnnotationProcessor "org.projectlombok:lombok:$lombokVersion"
+}
+
+compileJava   {
+    sourceCompatibility = '1.8'
+    targetCompatibility = '1.8'
+}
+
+test {
+    useJUnitPlatform()
 }
