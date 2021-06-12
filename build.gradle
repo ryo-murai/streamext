@@ -1,0 +1,22 @@
+plugins {
+    id 'java'
+}
+
+group 'com.github.streamext'
+version '0.0.1-SNAPSHOT'
+
+repositories {
+    mavenCentral()
+}
+
+def lombokVersion = '1.18.20'
+
+
+dependencies {
+    compileOnly "org.projectlombok:lombok:$lombokVersion"
+    annotationProcessor "org.projectlombok:lombok:$lombokVersion"
+
+    testCompileOnly "org.projectlombok:lombok:$lombokVersion"
+    testCompile 'org.junit.jupiter:junit-jupiter:5.4.2'
+    testAnnotationProcessor "org.projectlombok:lombok:$lombokVersion"
+}
