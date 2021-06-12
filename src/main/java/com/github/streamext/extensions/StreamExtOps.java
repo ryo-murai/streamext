@@ -22,8 +22,8 @@ public class StreamExtOps {
         return stream.filter(fallback(predicate, fallbackFunction));
     }
 
-    public static <T,E extends Exception> Stream<T> filterSilent(Stream<T> stream, ThrowablePredicateExt<T,E> predicate) {
-        return stream.filter(silent(predicate));
+    public static <T,E extends Exception> Stream<T> filterQuiet(Stream<T> stream, ThrowablePredicateExt<T,E> predicate) {
+        return stream.filter(quiet(predicate));
     }
 
     public static <T,E extends Exception> boolean allMatchE(Stream<T> stream, ThrowablePredicateExt<T,E> predicate) {
@@ -34,8 +34,8 @@ public class StreamExtOps {
         return stream.allMatch(fallback(predicate, fallbackFunction));
     }
 
-    public static <T,E extends Exception> boolean allMatchSilent(Stream<T> stream, ThrowablePredicateExt<T,E> predicate) {
-        return stream.allMatch(silent(predicate));
+    public static <T,E extends Exception> boolean allMatchQuiet(Stream<T> stream, ThrowablePredicateExt<T,E> predicate) {
+        return stream.allMatch(quiet(predicate));
     }
 
     public static <T,E extends Exception> boolean anyMatchE(Stream<T> stream, ThrowablePredicateExt<T,E> predicate) {
@@ -46,8 +46,8 @@ public class StreamExtOps {
         return stream.anyMatch(fallback(predicate, fallbackFunction));
     }
 
-    public static <T,E extends Exception> boolean anyMatchSilent(Stream<T> stream, ThrowablePredicateExt<T,E> predicate) {
-        return stream.anyMatch(silent(predicate));
+    public static <T,E extends Exception> boolean anyMatchQuiet(Stream<T> stream, ThrowablePredicateExt<T,E> predicate) {
+        return stream.anyMatch(quiet(predicate));
     }
 
     public static <T,E extends Exception> boolean nonMatchE(Stream<T> stream, ThrowablePredicateExt<T,E> predicate) {
@@ -58,8 +58,8 @@ public class StreamExtOps {
         return stream.noneMatch(fallback(predicate, fallbackFunction));
     }
 
-    public static <T,E extends Exception> boolean nonMatchSilent(Stream<T> stream, ThrowablePredicateExt<T,E> predicate) {
-        return stream.noneMatch(silent(predicate));
+    public static <T,E extends Exception> boolean nonMatchQuiet(Stream<T> stream, ThrowablePredicateExt<T,E> predicate) {
+        return stream.noneMatch(quiet(predicate));
     }
 
     public static <T,R,E extends Exception> Stream<R> mapE(Stream<T> stream, ThrowableFunctionExt<T,R,E> mapper) {
@@ -70,8 +70,8 @@ public class StreamExtOps {
         return stream.map(fallback(mapper, fallbackFunction));
     }
 
-    public static <T,R,E extends Exception> Stream<R> mapSilent(Stream<T> stream, ThrowableFunctionExt<T,R,E> mapper) {
-        return stream.map(silent(mapper));
+    public static <T,R,E extends Exception> Stream<R> mapQuiet(Stream<T> stream, ThrowableFunctionExt<T,R,E> mapper) {
+        return stream.map(quiet(mapper));
     }
 
     public static <T,R,E extends Exception> Stream<R> flatMapE(Stream<T> stream, ThrowableFunctionExt<T,Stream<R>,E> mapper) {
@@ -82,7 +82,7 @@ public class StreamExtOps {
         return stream.flatMap(fallback(mapper, fallbackFunction));
     }
 
-    public static <T,R,E extends Exception> Stream<R> flatMapSilent(Stream<T> stream, ThrowableFunctionExt<T,Stream<R>,E> mapper) {
+    public static <T,R,E extends Exception> Stream<R> flatMapQuiet(Stream<T> stream, ThrowableFunctionExt<T,Stream<R>,E> mapper) {
         return stream.flatMap(fallback(mapper, (t,e) -> Stream.empty()));
     }
 
@@ -94,8 +94,8 @@ public class StreamExtOps {
         stream.forEach(fallback(consumer, fallbackFunction));
     }
 
-    public static<T,E extends Exception> void forEachSilent(Stream<T> stream, ThrowableConsumerExt<T,E> consumer) {
-        stream.forEach(silent(consumer));
+    public static<T,E extends Exception> void forEachQuiet(Stream<T> stream, ThrowableConsumerExt<T,E> consumer) {
+        stream.forEach(quiet(consumer));
     }
 
     public static<T,E extends Exception> void forEachOrderedE(Stream<T> stream, ThrowableConsumerExt<T,E> consumer) {
@@ -106,8 +106,8 @@ public class StreamExtOps {
         stream.forEachOrdered(fallback(consumer, fallbackFunction));
     }
 
-    public static<T,E extends Exception> void forEachOrderedSilent(Stream<T> stream, ThrowableConsumerExt<T,E> consumer) {
-        stream.forEachOrdered(silent(consumer));
+    public static<T,E extends Exception> void forEachOrderedQuiet(Stream<T> stream, ThrowableConsumerExt<T,E> consumer) {
+        stream.forEachOrdered(quiet(consumer));
     }
 
     public static <T> List<T> list(Stream<T> stream) {

@@ -10,7 +10,7 @@ public class StreamExt {
         return fallback(throwablePredicate, (t,e) -> rethrowActually(e));
     }
 
-    public static <T, E extends Exception> Predicate<T> silent(ThrowablePredicateExt<T, E> throwablePredicate) {
+    public static <T, E extends Exception> Predicate<T> quiet(ThrowablePredicateExt<T, E> throwablePredicate) {
         return fallback(throwablePredicate, (t,e) -> false);
     }
 
@@ -31,7 +31,7 @@ public class StreamExt {
         return fallback(throwableMapper, (t,e) -> rethrowActually(e));
     }
 
-    public static <T,R,E extends Exception> Function<T,R> silent(ThrowableFunctionExt<T, R, E> throwableMapper) {
+    public static <T,R,E extends Exception> Function<T,R> quiet(ThrowableFunctionExt<T, R, E> throwableMapper) {
         return fallback(throwableMapper, (t,e) -> null);
     }
 
@@ -52,7 +52,7 @@ public class StreamExt {
         return fallback(throwableConsumer, (t,e) -> rethrowActually(e));
     }
 
-    public static <T,E extends Exception> Consumer<T> silent(ThrowableConsumerExt<T, E> throwableConsumer) {
+    public static <T,E extends Exception> Consumer<T> quiet(ThrowableConsumerExt<T, E> throwableConsumer) {
         return fallback(throwableConsumer, StreamExt::noop);
     }
 
