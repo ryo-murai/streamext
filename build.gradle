@@ -1,5 +1,6 @@
 plugins {
     id 'java'
+    id 'maven-publish'
 }
 
 group 'com.github.streamext'
@@ -26,4 +27,47 @@ compileJava   {
 
 test {
     useJUnitPlatform()
+}
+
+publishing {
+    repositories {
+        maven {
+            def releasesRepoUrl = "https://maven.pkg.github.com/ryo-murai/streamext"
+            def snapshotsRepoUrl = "https://maven.pkg.github.com/ryo-murai/streamext"
+            url = uri(version.endsWith('SNAPSHOT') ? snapshotsRepoUrl : releasesRepoUrl)
+
+            credentials {
+                username = project.findProperty("github.user") ?: System.getenv("GITHUB_ACTOR")
+                password = project.findProperty("github.token") ?: System.getenv("GITHUB_TOKEN")
+            }
+        }
+    }
+    publications {
+        streamext(MavenPublication) {
+            from components.java
+            pom {
+                name = 'Stream API Extension'
+                description = 'Extensions for the Java standard Stream API'
+                url = 'https://github.com/ryo-murai/streamext'
+                licenses {
+                    license {
+                        name = 'The Apache License, Version 2.0'
+                        url = 'http://www.apache.org/licenses/LICENSE-2.0.txt'
+                    }
+                }
+                developers {
+                    developer {
+                        id = 'ryo-murai'
+                        name = 'Ryo Murai'
+                        email = 'murai.ry@gmail.com'
+                    }
+                }
+                scm {
+                    connection = 'https://github.com/ryo-murai/streamext.git'
+                    developerConnection = 'https://github.com/ryo-murai/streamext.git'
+                    url = 'https://github.com/ryo-murai/streamext'
+                }
+            }
+        }
+    }
 }
