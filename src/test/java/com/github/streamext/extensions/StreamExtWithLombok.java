@@ -28,6 +28,6 @@ public class StreamExtWithLombok {
                 .map(req -> executor.submit(() -> httpClient.send(req, HttpResponse.BodyHandlers.ofString())))
                 .mapE(Future::get)
                 .map(HttpResponse::body)
-                .collect(toList());
+                .list();
     }
 }
