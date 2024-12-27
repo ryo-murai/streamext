@@ -26,7 +26,7 @@ class StreamExtTest {
                         throw new RuntimeException("error");
                     })
                     .findFirst();
-        }).isInstanceOf(FunctionExecutionException.class).getCause().hasMessage("error");
+        }).isInstanceOf(FunctionExecutionException.class).cause().hasMessage("error");
 
     }
 }
