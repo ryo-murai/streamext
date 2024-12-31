@@ -4,7 +4,7 @@ plugins {
 }
 
 group 'com.github.streamext'
-version '0.0.1-SNAPSHOT'
+version '0.0.2-SNAPSHOT'
 
 repositories {
     mavenCentral()
@@ -20,6 +20,11 @@ dependencies {
     testAnnotationProcessor "org.projectlombok:lombok:$lombokVersion"
 }
 
+java {
+    withJavadocJar()
+    withSourcesJar()
+}
+
 compileJava   {
     sourceCompatibility = '1.8'
     targetCompatibility = '1.8'
@@ -27,6 +32,14 @@ compileJava   {
 
 test {
     useJUnitPlatform()
+}
+
+javadoc {
+    title = 'Stream API Extensions'
+    options.locale ='en_US'
+    if(JavaVersion.current().isJava9Compatible()) {
+        options.addBooleanOption('html5', true)
+    }
 }
 
 publishing {
