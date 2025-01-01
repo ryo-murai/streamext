@@ -1,9 +1,10 @@
 plugins {
     id 'java'
+    id 'maven-publish'
 }
 
 group 'com.github.streamext'
-version '0.0.1-SNAPSHOT'
+version '0.0.2-SNAPSHOT'
 
 repositories {
     mavenCentral()
@@ -15,13 +16,17 @@ def assertjVersion = '3.23.0'
 
 
 dependencies {
-    // compileOnly "org.projectlombok:lombok:$lombokVersion"
     annotationProcessor "org.projectlombok:lombok:$lombokVersion"
 
     testCompileOnly "org.projectlombok:lombok:$lombokVersion"
     testImplementation "org.junit.jupiter:junit-jupiter:$junitVersion"
     testImplementation "org.assertj:assertj-core:$assertjVersion"
     testAnnotationProcessor "org.projectlombok:lombok:$lombokVersion"
+}
+
+java {
+    withJavadocJar()
+    withSourcesJar()
 }
 
 compileJava   {
@@ -31,4 +36,55 @@ compileJava   {
 
 test {
     useJUnitPlatform()
+}
+
+javadoc {
+    title = 'Stream API Extensions'
+    options.locale ='en_US'
+    if(JavaVersion.current().isJava9Compatible()) {
+        options.addBooleanOption('html5', true)
+    }
+}
+
+publishing {
+    repositories {
+        maven {
+            def releasesRepoUrl = "https://maven.pkg.github.com/ryo-murai/streamext"
+            def snapshotsRepoUrl = "https://maven.pkg.github.com/ryo-murai/streamext"
+            url = uri(version.endsWith('SNAPSHOT') ? snapshotsRepoUrl : releasesRepoUrl)
+
+            credentials {
+                username = project.findProperty("github.user") ?: System.getenv("GITHUB_ACTOR")
+                password = project.findProperty("github.token") ?: System.getenv("GITHUB_TOKEN")
+            }
+        }
+    }
+    publications {
+        streamext(MavenPublication) {
+            from components.java
+            pom {
+                name = 'Stream API Extension'
+                description = 'Extensions for the Java standard Stream API'
+                url = 'https://github.com/ryo-murai/streamext'
+                licenses {
+                    license {
+                        name = 'The Apache License, Version 2.0'
+                        url = 'http://www.apache.org/licenses/LICENSE-2.0.txt'
+                    }
+                }
+                developers {
+                    developer {
+                        id = 'ryo-murai'
+                        name = 'Ryo Murai'
+                        email = 'murai.ry@gmail.com'
+                    }
+                }
+                scm {
+                    connection = 'https://github.com/ryo-murai/streamext.git'
+                    developerConnection = 'https://github.com/ryo-murai/streamext.git'
+                    url = 'https://github.com/ryo-murai/streamext'
+                }
+            }
+        }
+    }
 }
